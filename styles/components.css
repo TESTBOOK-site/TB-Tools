@@ -943,6 +943,51 @@
   outline: none;
 }
 
+.tb-passcode-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  transition: all 0.15s ease;
+  overflow: hidden;
+}
+
+.tb-passcode-input-wrapper:focus-within {
+  border-color: #0076D7;
+  box-shadow: 0 0 0 3px rgba(0, 118, 215, 0.15);
+}
+
+.tb-passcode-input-wrapper.error {
+  border-color: #EF4444;
+  background-color: #FEF2F2;
+}
+
+.tb-lock-prefix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1rem;
+  background-color: #F8FAFC;
+  border-right: 1.5px solid #CBD5E1;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+.tb-passcode-input-field {
+  flex: 1;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.85rem 1rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.3em;
+  font-weight: 700;
+  color: #0F172A;
+  background: transparent;
+  outline: none;
+}
+
 .tb-input-error-msg {
   color: #DC2626;
   font-size: 0.8rem;

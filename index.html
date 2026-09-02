@@ -13,7 +13,7 @@
   <meta property="og:title" content="Testbook Govt Exam Tools - 100% Free & Privacy-First" />
   <meta property="og:description" content="Free tools to help you crack your next govt exam. Client-side photo/signature resizer, 7th CPC salary calculator, age checker & more." />
 
-        <!-- Inlined Bulletproof Stylesheet (Zero-Dependency) -->
+          <!-- Inlined Bulletproof Stylesheet (Zero-Dependency) -->
   <style id="tb-embedded-styles">
 /* Testbook Govt Exam Tools - Main CSS & Design Tokens */
 
@@ -1101,6 +1101,51 @@ button {
   font-size: 1.05rem;
   letter-spacing: 0.05em;
   font-weight: 600;
+  color: #0F172A;
+  background: transparent;
+  outline: none;
+}
+
+.tb-passcode-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  transition: all 0.15s ease;
+  overflow: hidden;
+}
+
+.tb-passcode-input-wrapper:focus-within {
+  border-color: #0076D7;
+  box-shadow: 0 0 0 3px rgba(0, 118, 215, 0.15);
+}
+
+.tb-passcode-input-wrapper.error {
+  border-color: #EF4444;
+  background-color: #FEF2F2;
+}
+
+.tb-lock-prefix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1rem;
+  background-color: #F8FAFC;
+  border-right: 1.5px solid #CBD5E1;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+.tb-passcode-input-field {
+  flex: 1;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.85rem 1rem;
+  font-size: 1.25rem;
+  letter-spacing: 0.3em;
+  font-weight: 700;
   color: #0F172A;
   background: transparent;
   outline: none;
@@ -3210,8 +3255,8 @@ button {
             <text x="175" y="29" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#0076D7" letter-spacing="1">TOOLS</text>
           </svg>
           
-          <h2 class="tb-login-title">Login to Testbook</h2>
-          <p class="tb-login-desc">Please enter your 10-digit Mobile Number to access all free Govt Exam Tools</p>
+          <h2 class="tb-login-title">Internal Tools Access</h2>
+          <p class="tb-login-desc">Enter your 10-digit Mobile Number and the 4-digit Access Passcode to unlock the tools.</p>
 
           <form id="tb-login-form" novalidate>
             <div class="form-group">
@@ -3238,13 +3283,33 @@ button {
               <div id="tb-input-error-msg" class="tb-input-error-msg">Please enter a valid 10-digit Indian Mobile Number (starting with 6, 7, 8, or 9).</div>
             </div>
 
+            <div class="form-group" style="margin-top: 1rem;">
+              <label class="tb-input-label" for="tb-user-passcode-input">
+                Internal Access Passcode <span class="tb-required-star">*</span>
+              </label>
+              <div class="tb-passcode-input-wrapper">
+                <div class="tb-lock-prefix">🔑</div>
+                <input 
+                  type="password" 
+                  id="tb-user-passcode-input" 
+                  class="tb-login-input tb-passcode-input-field" 
+                  placeholder="Enter 4-digit PIN" 
+                  maxlength="4"
+                  inputmode="numeric"
+                  autocomplete="current-password" 
+                  required 
+                />
+              </div>
+              <div id="tb-passcode-error-msg" class="tb-input-error-msg">Incorrect Access Passcode. Please enter authorized 4-digit PIN.</div>
+            </div>
+
             <button type="submit" id="tb-btn-continue" class="tb-btn-continue">
-              <span id="tb-btn-continue-text">Continue to Free Tools →</span>
+              <span id="tb-btn-continue-text">Unlock Internal Tools →</span>
             </button>
           </form>
 
           <div class="tb-auth-trust-badge">
-            <span>🔒 100% Free &amp; Secure • Official Testbook Access</span>
+            <span>🔒 Internal Access Protected • Authorized Testbook Access Only</span>
           </div>
         </div>
 
@@ -3344,7 +3409,6 @@ button {
   <!-- PDF-Lib for Client-Side PDF Creation & Manipulation -->
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
-  <!-- Master Standalone Application Script (Works 100% on file:/// and http://) -->
     <!-- Master Standalone Application Script (Inlined for 100% Zero-Dependency & GitHub Pages Compatibility) -->
   <script>
 // Testbook Govt Exam Tools - Master Standalone Application
@@ -6371,16 +6435,21 @@ button {
     // ==========================================
     // OFFICIAL TESTBOOK LOGIN & SESSION LOGIC
     // ==========================================
+    const INTERNAL_ACCESS_PASSWORD = '7730';
+
     const loginBackdrop = document.getElementById('tb-login-modal-backdrop');
     const loginForm = document.getElementById('tb-login-form');
     const contactInput = document.getElementById('tb-user-contact-input');
+    const passcodeInput = document.getElementById('tb-user-passcode-input');
     const errorMsg = document.getElementById('tb-input-error-msg');
+    const passcodeErrorMsg = document.getElementById('tb-passcode-error-msg');
     const continueBtn = document.getElementById('tb-btn-continue');
     const continueBtnText = document.getElementById('tb-btn-continue-text');
     const userAuthContainer = document.getElementById('user-auth-status-container');
     const mobileWrapper = document.querySelector('.tb-mobile-input-wrapper');
+    const passcodeWrapper = document.querySelector('.tb-passcode-input-wrapper');
 
-    const STORAGE_KEY = 'testbook_student_session';
+    const STORAGE_KEY = 'testbook_internal_session_v2';
 
     function getStudentSession() {
       try {
@@ -6396,6 +6465,7 @@ button {
         const session = {
           contact: contact,
           phone: contact,
+          authenticated: true,
           timestamp: new Date().toISOString(),
           device: navigator.userAgent
         };
@@ -6408,14 +6478,14 @@ button {
 
     function renderUserAuthBadge(session) {
       if (!userAuthContainer || !session) return;
-      let displayContact = session.contact || session.phone || 'Verified Student';
+      let displayContact = session.contact || session.phone || 'Internal User';
       if (/^\d{10}$/.test(displayContact)) {
         displayContact = '+91 ' + displayContact.slice(0, 2) + '******' + displayContact.slice(8);
       }
       userAuthContainer.innerHTML = `
-        <div class="user-auth-badge" title="Verified Testbook Student: +91 ${session.contact || session.phone}">
+        <div class="user-auth-badge" title="Authorized Internal Access: +91 ${session.contact || session.phone}">
           <span class="status-dot"></span>
-          <span>${displayContact}</span>
+          <span>🛡️ ${displayContact}</span>
         </div>
       `;
     }
@@ -6430,6 +6500,7 @@ button {
         mobileOrEmail: contact,
         contact: contact,
         phone: contact,
+        passcode: INTERNAL_ACCESS_PASSWORD,
         userAgent: navigator.userAgent,
         toolVisited: window.location.hash || '#/home',
         timestamp: new Date().toISOString()
@@ -6439,6 +6510,7 @@ button {
         mobileOrEmail: contact,
         contact: contact,
         phone: contact,
+        passcode: INTERNAL_ACCESS_PASSWORD,
         userAgent: navigator.userAgent,
         toolVisited: window.location.hash || '#/home',
         timestamp: new Date().toISOString()
@@ -6476,11 +6548,12 @@ button {
     function checkAndShowLoginModal() {
       const session = getStudentSession();
       const contactVal = session ? (session.contact || session.phone || '') : '';
-      if (session && /^[6-9]\d{9}$/.test(contactVal)) {
-        // Already verified mobile on this system — allow access directly
+      const isAuth = session && session.authenticated === true && /^[6-9]\d{9}$/.test(contactVal);
+      if (isAuth) {
+        // Already verified internal access on this system — allow access directly
         renderUserAuthBadge(session);
       } else {
-        // Mandatory login required before accessing tools
+        // Mandatory login with Passcode 7730 required before accessing tools
         if (loginBackdrop) {
           setTimeout(() => {
             loginBackdrop.classList.add('active');
@@ -6490,8 +6563,9 @@ button {
       }
     }
 
-    function handleLoginSubmit(rawInput) {
+    function handleLoginSubmit(rawInput, rawPasscode) {
       let cleanVal = (rawInput || '').trim().replace(/\D/g, '');
+      const cleanPass = (rawPasscode || '').trim();
       
       // Auto-strip country code if user pasted +91 or 91 with 12 digits
       if (cleanVal.length === 12 && cleanVal.startsWith('91')) {
@@ -6500,7 +6574,9 @@ button {
         cleanVal = cleanVal.slice(1);
       }
 
-      // Mandatory validation: strictly 10 digits starting with 6, 7, 8, or 9
+      let hasError = false;
+
+      // Mandatory Mobile Number validation
       if (!cleanVal || cleanVal.length !== 10 || !/^[6-9]\d{9}$/.test(cleanVal)) {
         if (errorMsg) {
           errorMsg.textContent = 'Please enter a valid 10-digit Indian Mobile Number (starting with 6, 7, 8, or 9).';
@@ -6511,15 +6587,36 @@ button {
           contactInput.classList.add('error');
           contactInput.focus();
         }
-        return;
+        hasError = true;
+      } else {
+        if (errorMsg) errorMsg.classList.remove('show');
+        if (mobileWrapper) mobileWrapper.classList.remove('error');
+        if (contactInput) contactInput.classList.remove('error');
       }
 
-      // Valid Mobile Number provided
-      if (errorMsg) errorMsg.classList.remove('show');
-      if (mobileWrapper) mobileWrapper.classList.remove('error');
-      if (contactInput) contactInput.classList.remove('error');
+      // Mandatory Passcode 7730 validation
+      if (cleanPass !== INTERNAL_ACCESS_PASSWORD) {
+        if (passcodeErrorMsg) {
+          passcodeErrorMsg.textContent = 'Incorrect Passcode! Please enter the authorized 4-digit PIN (7730).';
+          passcodeErrorMsg.classList.add('show');
+        }
+        if (passcodeWrapper) passcodeWrapper.classList.add('error');
+        if (passcodeInput) {
+          passcodeInput.classList.add('error');
+          if (!hasError) passcodeInput.focus();
+        }
+        hasError = true;
+      } else {
+        if (passcodeErrorMsg) passcodeErrorMsg.classList.remove('show');
+        if (passcodeWrapper) passcodeWrapper.classList.remove('error');
+        if (passcodeInput) passcodeInput.classList.remove('error');
+      }
+
+      if (hasError) return;
+
+      // Both Valid: grant access
       if (continueBtn) continueBtn.disabled = true;
-      if (continueBtnText) continueBtnText.textContent = 'Verifying...';
+      if (continueBtnText) continueBtnText.textContent = 'Authorizing...';
 
       // Save student session locally and dispatch to Google Sheet
       const session = saveStudentSession(cleanVal);
@@ -6529,9 +6626,9 @@ button {
         if (loginBackdrop) loginBackdrop.classList.remove('active');
         renderUserAuthBadge(session);
         if (continueBtn) continueBtn.disabled = false;
-        if (continueBtnText) continueBtnText.textContent = 'Continue to Free Tools →';
+        if (continueBtnText) continueBtnText.textContent = 'Unlock Internal Tools →';
         if (toastEl) {
-          toastEl.textContent = '✓ Verified! Welcome to Testbook Govt Tools.';
+          toastEl.textContent = '✓ Authorized! Welcome to Testbook Internal Tools.';
           toastEl.classList.remove('hidden');
           toastEl.classList.add('show');
           setTimeout(() => {
@@ -6545,7 +6642,6 @@ button {
     // Input filtering to ensure numeric entry only
     if (contactInput) {
       contactInput.addEventListener('input', (e) => {
-        // Strip non-numeric characters
         e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
         if (e.target.value.length > 0) {
           if (errorMsg) errorMsg.classList.remove('show');
@@ -6555,10 +6651,24 @@ button {
       });
     }
 
+    if (passcodeInput) {
+      passcodeInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+        if (e.target.value.length > 0) {
+          if (passcodeErrorMsg) passcodeErrorMsg.classList.remove('show');
+          if (passcodeWrapper) passcodeWrapper.classList.remove('error');
+          if (passcodeInput) passcodeInput.classList.remove('error');
+        }
+      });
+    }
+
     if (loginForm) {
       loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        handleLoginSubmit(contactInput ? contactInput.value : '');
+        handleLoginSubmit(
+          contactInput ? contactInput.value : '',
+          passcodeInput ? passcodeInput.value : ''
+        );
       });
     }
 

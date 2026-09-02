@@ -3022,16 +3022,21 @@
     // ==========================================
     // OFFICIAL TESTBOOK LOGIN & SESSION LOGIC
     // ==========================================
+    const INTERNAL_ACCESS_PASSWORD = '7730';
+
     const loginBackdrop = document.getElementById('tb-login-modal-backdrop');
     const loginForm = document.getElementById('tb-login-form');
     const contactInput = document.getElementById('tb-user-contact-input');
+    const passcodeInput = document.getElementById('tb-user-passcode-input');
     const errorMsg = document.getElementById('tb-input-error-msg');
+    const passcodeErrorMsg = document.getElementById('tb-passcode-error-msg');
     const continueBtn = document.getElementById('tb-btn-continue');
     const continueBtnText = document.getElementById('tb-btn-continue-text');
     const userAuthContainer = document.getElementById('user-auth-status-container');
     const mobileWrapper = document.querySelector('.tb-mobile-input-wrapper');
+    const passcodeWrapper = document.querySelector('.tb-passcode-input-wrapper');
 
-    const STORAGE_KEY = 'testbook_student_session';
+    const STORAGE_KEY = 'testbook_internal_session_v2';
 
     function getStudentSession() {
       try {
@@ -3047,6 +3052,7 @@
         const session = {
           contact: contact,
           phone: contact,
+          authenticated: true,
           timestamp: new Date().toISOString(),
           device: navigator.userAgent
         };
@@ -3059,14 +3065,14 @@
 
     function renderUserAuthBadge(session) {
       if (!userAuthContainer || !session) return;
-      let displayContact = session.contact || session.phone || 'Verified Student';
+      let displayContact = session.contact || session.phone || 'Internal User';
       if (/^\d{10}$/.test(displayContact)) {
         displayContact = '+91 ' + displayContact.slice(0, 2) + '******' + displayContact.slice(8);
       }
       userAuthContainer.innerHTML = `
-        <div class="user-auth-badge" title="Verified Testbook Student: +91 ${session.contact || session.phone}">
+        <div class="user-auth-badge" title="Authorized Internal Access: +91 ${session.contact || session.phone}">
           <span class="status-dot"></span>
-          <span>${displayContact}</span>
+          <span>🛡️ ${displayContact}</span>
         </div>
       `;
     }
@@ -3081,6 +3087,7 @@
         mobileOrEmail: contact,
         contact: contact,
         phone: contact,
+        passcode: INTERNAL_ACCESS_PASSWORD,
         userAgent: navigator.userAgent,
         toolVisited: window.location.hash || '#/home',
         timestamp: new Date().toISOString()
@@ -3090,6 +3097,7 @@
         mobileOrEmail: contact,
         contact: contact,
         phone: contact,
+        passcode: INTERNAL_ACCESS_PASSWORD,
         userAgent: navigator.userAgent,
         toolVisited: window.location.hash || '#/home',
         timestamp: new Date().toISOString()
@@ -3127,11 +3135,12 @@
     function checkAndShowLoginModal() {
       const session = getStudentSession();
       const contactVal = session ? (session.contact || session.phone || '') : '';
-      if (session && /^[6-9]\d{9}$/.test(contactVal)) {
-        // Already verified mobile on this system — allow access directly
+      const isAuth = session && session.authenticated === true && /^[6-9]\d{9}$/.test(contactVal);
+      if (isAuth) {
+        // Already verified internal access on this system — allow access directly
         renderUserAuthBadge(session);
       } else {
-        // Mandatory login required before accessing tools
+        // Mandatory login with Passcode 7730 required before accessing tools
         if (loginBackdrop) {
           setTimeout(() => {
             loginBackdrop.classList.add('active');
@@ -3141,8 +3150,9 @@
       }
     }
 
-    function handleLoginSubmit(rawInput) {
+    function handleLoginSubmit(rawInput, rawPasscode) {
       let cleanVal = (rawInput || '').trim().replace(/\D/g, '');
+      const cleanPass = (rawPasscode || '').trim();
       
       // Auto-strip country code if user pasted +91 or 91 with 12 digits
       if (cleanVal.length === 12 && cleanVal.startsWith('91')) {
@@ -3151,7 +3161,9 @@
         cleanVal = cleanVal.slice(1);
       }
 
-      // Mandatory validation: strictly 10 digits starting with 6, 7, 8, or 9
+      let hasError = false;
+
+      // Mandatory Mobile Number validation
       if (!cleanVal || cleanVal.length !== 10 || !/^[6-9]\d{9}$/.test(cleanVal)) {
         if (errorMsg) {
           errorMsg.textContent = 'Please enter a valid 10-digit Indian Mobile Number (starting with 6, 7, 8, or 9).';
@@ -3162,15 +3174,36 @@
           contactInput.classList.add('error');
           contactInput.focus();
         }
-        return;
+        hasError = true;
+      } else {
+        if (errorMsg) errorMsg.classList.remove('show');
+        if (mobileWrapper) mobileWrapper.classList.remove('error');
+        if (contactInput) contactInput.classList.remove('error');
       }
 
-      // Valid Mobile Number provided
-      if (errorMsg) errorMsg.classList.remove('show');
-      if (mobileWrapper) mobileWrapper.classList.remove('error');
-      if (contactInput) contactInput.classList.remove('error');
+      // Mandatory Passcode 7730 validation
+      if (cleanPass !== INTERNAL_ACCESS_PASSWORD) {
+        if (passcodeErrorMsg) {
+          passcodeErrorMsg.textContent = 'Incorrect Passcode! Please enter the authorized 4-digit PIN (7730).';
+          passcodeErrorMsg.classList.add('show');
+        }
+        if (passcodeWrapper) passcodeWrapper.classList.add('error');
+        if (passcodeInput) {
+          passcodeInput.classList.add('error');
+          if (!hasError) passcodeInput.focus();
+        }
+        hasError = true;
+      } else {
+        if (passcodeErrorMsg) passcodeErrorMsg.classList.remove('show');
+        if (passcodeWrapper) passcodeWrapper.classList.remove('error');
+        if (passcodeInput) passcodeInput.classList.remove('error');
+      }
+
+      if (hasError) return;
+
+      // Both Valid: grant access
       if (continueBtn) continueBtn.disabled = true;
-      if (continueBtnText) continueBtnText.textContent = 'Verifying...';
+      if (continueBtnText) continueBtnText.textContent = 'Authorizing...';
 
       // Save student session locally and dispatch to Google Sheet
       const session = saveStudentSession(cleanVal);
@@ -3180,9 +3213,9 @@
         if (loginBackdrop) loginBackdrop.classList.remove('active');
         renderUserAuthBadge(session);
         if (continueBtn) continueBtn.disabled = false;
-        if (continueBtnText) continueBtnText.textContent = 'Continue to Free Tools →';
+        if (continueBtnText) continueBtnText.textContent = 'Unlock Internal Tools →';
         if (toastEl) {
-          toastEl.textContent = '✓ Verified! Welcome to Testbook Govt Tools.';
+          toastEl.textContent = '✓ Authorized! Welcome to Testbook Internal Tools.';
           toastEl.classList.remove('hidden');
           toastEl.classList.add('show');
           setTimeout(() => {
@@ -3196,7 +3229,6 @@
     // Input filtering to ensure numeric entry only
     if (contactInput) {
       contactInput.addEventListener('input', (e) => {
-        // Strip non-numeric characters
         e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
         if (e.target.value.length > 0) {
           if (errorMsg) errorMsg.classList.remove('show');
@@ -3206,10 +3238,24 @@
       });
     }
 
+    if (passcodeInput) {
+      passcodeInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+        if (e.target.value.length > 0) {
+          if (passcodeErrorMsg) passcodeErrorMsg.classList.remove('show');
+          if (passcodeWrapper) passcodeWrapper.classList.remove('error');
+          if (passcodeInput) passcodeInput.classList.remove('error');
+        }
+      });
+    }
+
     if (loginForm) {
       loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        handleLoginSubmit(contactInput ? contactInput.value : '');
+        handleLoginSubmit(
+          contactInput ? contactInput.value : '',
+          passcodeInput ? passcodeInput.value : ''
+        );
       });
     }
 
