@@ -3,17 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-  <title>Govt Exam Tools - Free Online Photo Resizer, Salary, Age & PDF Tools | Testbook</title>
-  <meta name="description" content="100% Free, privacy-first client-side web tools for Indian Govt job aspirants (SSC, UPSC, Railways RRB, Banking IBPS, State PSCs). Auto photo resizer (20-50KB), in-hand salary calculator, age eligibility, PDF compressor & exam countdown." />
-  <meta name="keywords" content="govt exam tools, SSC photo resizer, UPSC photo compressor, signature crop 10-20kb, 7th cpc salary calculator, ssc age calculator, rrb normalization formula, testbook tools" />
+  <title>Testbook Internal Govt Exam Tools - Protected Access</title>
+  <meta name="description" content="100% Free, privacy-first client-side web tools for Indian Govt job aspirants." />
   <meta name="theme-color" content="#0076D7" />
 
-  <!-- Open Graph / Social Meta -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Testbook Govt Exam Tools - 100% Free & Privacy-First" />
-  <meta property="og:description" content="Free tools to help you crack your next govt exam. Client-side photo/signature resizer, 7th CPC salary calculator, age checker & more." />
-
-          <!-- Inlined Bulletproof Stylesheet (Zero-Dependency) -->
+  <!-- Inlined Bulletproof Stylesheet (Zero-Dependency) -->
   <style id="tb-embedded-styles">
 /* Testbook Govt Exam Tools - Main CSS & Design Tokens */
 
@@ -1456,6 +1450,179 @@ button {
   .tb-login-form-col {
     padding: 2rem 1.5rem 1.5rem;
   }
+}
+
+/* ==========================================
+   FULLSCREEN DASHBOARD AUTH GATEKEEPER
+   ========================================== */
+.auth-gatekeeper-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 20%, #0F2B5C 0%, #0A1938 55%, #030A1C 100%);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.auth-gatekeeper-screen.unlocked {
+  display: none !important;
+}
+
+.dashboard-hidden {
+  display: none !important;
+}
+
+.dashboard-visible {
+  display: block !important;
+  animation: fadeInDashboard 0.35s ease-out;
+}
+
+@keyframes fadeInDashboard {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-gatekeeper-card {
+  background: #FFFFFF;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 460px;
+  padding: 2.5rem 2rem 2.25rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  margin: auto;
+}
+
+.auth-lock-badge {
+  display: inline-block;
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.auth-gatekeeper-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+}
+
+.auth-gatekeeper-desc {
+  font-size: 0.875rem;
+  color: #64748B;
+  margin-bottom: 1.75rem;
+  line-height: 1.45;
+}
+
+.gk-input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  transition: all 0.15s ease;
+  overflow: hidden;
+  text-align: left;
+}
+
+.gk-input-wrapper:focus-within {
+  border-color: #0076D7;
+  box-shadow: 0 0 0 3px rgba(0, 118, 215, 0.15);
+}
+
+.gk-input-wrapper.error {
+  border-color: #EF4444;
+  background-color: #FEF2F2;
+}
+
+.gk-icon {
+  padding: 0.85rem 1rem;
+  background-color: #F8FAFC;
+  border-right: 1.5px solid #CBD5E1;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+.gk-prefix {
+  padding: 0.85rem 0.85rem 0.85rem 1rem;
+  background-color: #F8FAFC;
+  border-right: 1.5px solid #CBD5E1;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1E293B;
+  user-select: none;
+}
+
+.gk-input {
+  flex: 1;
+  border: none !important;
+  outline: none;
+  padding: 0.85rem 1rem;
+  font-size: 1.1rem;
+  color: #0F172A;
+  font-weight: 600;
+  background: transparent;
+}
+
+.gk-error-msg {
+  color: #DC2626;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+  text-align: left;
+  display: none;
+  font-weight: 600;
+}
+
+.gk-error-msg.show {
+  display: block;
+}
+
+.gk-btn-unlock {
+  width: 100%;
+  background: #0076D7;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.95rem;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  font-weight: 750;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 12px rgba(0, 118, 215, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.gk-btn-unlock:hover {
+  background: #005FA3;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 118, 215, 0.4);
+}
+
+.gk-btn-unlock:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.gk-footer-note {
+  font-size: 0.75rem;
+  color: #94A3B8;
+  margin-top: 1.5rem;
 }
 
 
@@ -3065,186 +3232,82 @@ button {
 </head>
 <body>
 
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="#/" class="brand-link" title="Testbook Govt Exam Tools Home">
-        <svg class="brand-logo-img" viewBox="0 0 240 50" width="200" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g transform="translate(4, 5)">
-            <rect x="0" y="0" width="40" height="40" rx="10" fill="#0076D7"/>
-            <path d="M12 14L28 14M12 20L25 20M12 26L21 26" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
-            <circle cx="28" cy="26" r="3.5" fill="#22C55E"/>
-          </g>
-          <text x="56" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800" fill="#1E293B" letter-spacing="-0.5">testbook</text>
-          <rect x="168" y="16" width="58" height="18" rx="4" fill="#E0F2FE"/>
-          <text x="175" y="29" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#0076D7" letter-spacing="1">TOOLS</text>
-        </svg>
-      </a>
-      <span class="header-tagline">Free tools to help you crack your next govt exam</span>
+  <!-- ================= FULLSCREEN PASSCODE GATEKEEPER ================= -->
+  <div id="app-auth-gatekeeper" class="auth-gatekeeper-screen">
+    <div class="auth-gatekeeper-card">
+      <svg class="auth-gatekeeper-logo" viewBox="0 0 240 50" width="200" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(4, 5)">
+          <rect x="0" y="0" width="40" height="40" rx="10" fill="#0076D7"/>
+          <path d="M12 14L28 14M12 20L25 20M12 26L21 26" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="28" cy="26" r="3.5" fill="#22C55E"/>
+        </g>
+        <text x="56" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800" fill="#1E293B" letter-spacing="-0.5">testbook</text>
+        <rect x="168" y="16" width="58" height="18" rx="4" fill="#E0F2FE"/>
+        <text x="175" y="29" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#0076D7" letter-spacing="1">INTERNAL</text>
+      </svg>
 
-      <div class="header-nav-actions" id="header-nav-actions">
-        <div id="user-auth-status-container"></div>
-        <a href="#/typing-test" class="pill-btn highlight-btn">⌨️ Typing Test</a>
-        <a href="#/photo-resizer" class="pill-btn">📷 Photo Resizer</a>
-        <a href="#/salary-calculator" class="pill-btn">💰 Salary Calc</a>
+      <div class="auth-lock-badge">ðŸ”’ Restricted Internal Tool</div>
+      <h1 class="auth-gatekeeper-title">Enter Access Passcode</h1>
+      <p class="auth-gatekeeper-desc">This system is protected. Please enter the 4-digit Passcode (PIN) and your Mobile Number to access the entire tools dashboard.</p>
+
+      <form id="tb-login-form" novalidate>
+        <div class="form-group" style="text-align: left;">
+          <label class="form-label" for="tb-user-passcode-input">Access Passcode (PIN) <span class="required">*</span></label>
+          <div class="tb-passcode-input-wrapper">
+            <span class="tb-lock-prefix">ðŸ”‘</span>
+            <input 
+              type="password" 
+              id="tb-user-passcode-input" 
+              class="tb-passcode-input-field" 
+              placeholder="Enter 4-digit PIN (7730)" 
+              maxlength="4" 
+              inputmode="numeric" 
+              autofocus 
+              required 
+            />
+          </div>
+          <div id="tb-passcode-error-msg" class="tb-input-error-msg">Incorrect Passcode! Please enter 7730.</div>
+        </div>
+
+        <div class="form-group" style="margin-top: 1rem; text-align: left;">
+          <label class="form-label" for="tb-user-contact-input">Mobile Number <span class="required">*</span></label>
+          <div class="tb-mobile-input-wrapper">
+            <span class="tb-mobile-prefix">
+              <span class="tb-flag">ðŸ‡®ðŸ‡³</span>
+              <span class="tb-code">+91</span>
+            </span>
+            <input 
+              type="tel" 
+              id="tb-user-contact-input" 
+              class="tb-mobile-input-field" 
+              placeholder="Enter 10-digit Mobile Number" 
+              maxlength="10" 
+              inputmode="numeric" 
+              required 
+            />
+          </div>
+          <div id="tb-input-error-msg" class="tb-input-error-msg">Please enter a valid 10-digit Mobile Number.</div>
+        </div>
+
+        <button type="submit" id="tb-btn-continue" class="gk-btn-unlock">
+          <span id="tb-btn-continue-text">Unlock Dashboard â†’</span>
+        </button>
+      </form>
+
+      <div class="gk-footer-note">
+        ðŸ”’ 100% Confidential â€¢ Testbook Internal Tools
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- Main Content Wrapper -->
-  <main class="main-content">
-    <div class="container">
-      
-      <!-- ================= HOMEPAGE VIEW ================= -->
-      <section id="homepage-view">
-        
-        <!-- Hero Section -->
-        <div class="hero-section">
-          <h1 class="hero-main-title">Govt Exam Tools for Indian Aspirants</h1>
-          <p class="hero-subtitle">
-            Instant, 100% in-browser utilities tailored for SSC, UPSC, Railways RRB, Banking (IBPS/SBI), Defence, and State PSC application forms.
-          </p>
+  <!-- ================= ENTIRE DASHBOARD (HIDDEN UNTIL UNLOCKED) ================= -->
+  <div id="app-dashboard-wrapper" class="dashboard-hidden">
 
-          <!-- Trust Badges -->
-          <div class="trust-badges-row">
-            <span class="trust-badge-item">
-              <span class="trust-badge-icon">🔒</span>
-              <span>100% Client-Side (Files Never Leave Your Device)</span>
-            </span>
-            <span class="trust-badge-item">
-              <span class="trust-badge-icon">⚡</span>
-              <span>Verified Testbook Student Access</span>
-            </span>
-            <span class="trust-badge-item">
-              <span class="trust-badge-icon">🎉</span>
-              <span>100% Free Forever</span>
-            </span>
-            <span class="trust-badge-item">
-              <span class="trust-badge-icon">📱</span>
-              <span>Works on Mobile (Tier 2/3 Fast)</span>
-            </span>
-          </div>
-        </div>
-
-        <!-- Search & Filter Section -->
-        <div class="search-filter-section">
-          <div class="search-box-wrapper">
-            <span class="search-icon-inside">🔍</span>
-            <input type="text" id="tool-search-input" class="search-input-field" placeholder="Search tool by name or exam (e.g. Photo, Salary, SSC, Signature, PDF, Age)..." />
-          </div>
-
-          <div class="category-filter-pills" id="home-category-filters">
-            <button class="pill-btn active" data-category="all">All Tools</button>
-            <button class="pill-btn" data-category="photo-pdf">📷 Photo & PDF Tools</button>
-            <button class="pill-btn" data-category="eligibility">💰 Eligibility & Salary</button>
-            <button class="pill-btn" data-category="marks">🎯 Marks & Scores</button>
-          </div>
-        </div>
-
-        <!-- Tools Grid -->
-        <div class="tools-cards-grid" id="tools-grid">
-          <!-- Dynamically populated from tools registry in app.js -->
-        </div>
-
-      </section>
-
-      <!-- ================= DEDICATED TOOL DETAIL VIEW ================= -->
-      <section id="tool-detail-view" class="detail-view-container hidden">
-        
-        <!-- Breadcrumb & Top Bar -->
-        <div class="breadcrumb-nav">
-          <a href="#/" class="back-home-link">
-            <span>← Back to All Tools</span>
-          </a>
-          
-          <div class="breadcrumb-trail">
-            <a href="#/">Home</a> / <strong id="tool-breadcrumb-name">Tool Name</strong>
-          </div>
-
-          <button type="button" class="share-tool-btn" id="share-tool-btn">
-            <span>🔗 Copy Share Link</span>
-          </button>
-        </div>
-
-        <!-- Tool Content Area (dynamically injected) -->
-        <div id="tool-content-area">
-          <!-- Tool UI loads here -->
-        </div>
-
-        <!-- FAQ Section under each tool -->
-        <div class="faq-section mt-4" id="tool-faq-section">
-          <div class="faq-header">
-            <h3 class="faq-title">Frequently Asked Questions & Portal Guidelines</h3>
-            <p class="faq-subtitle">Clear answers to common doubts, rules, and rejection fixes.</p>
-          </div>
-          <div class="faq-list" id="tool-faq-list">
-            <!-- FAQ Accordions load here -->
-          </div>
-        </div>
-
-      </section>
-
-    </div>
-  </main>
-
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      
-      <!-- Top Disclaimer Banner -->
-      <div class="footer-top-disclaimer">
-        <strong>⚠️ Important Aspirant Notice & Disclaimer:</strong> All calculations, salary projections, age eligibility checks, shift normalizations, and image specifications provided on Testbook Govt Exam Tools are strictly illustrative and based on published recruitment notifications and standard 7th Central Pay Commission matrices. Candidates must verify all official requirements with the latest advertisement gazette published by the respective commission (SSC, UPSC, RRB, IBPS, NTA, or State PSC) before final application submission. Testbook is not affiliated with any government recruitment body.
-      </div>
-
-      <!-- Links Grid -->
-      <div class="footer-grid">
-        <div>
-          <img src="https://cdn.testbook.com/1746182301514-Testbook%20Logo.png/1746182303.png" onerror="this.src='assets/logo.svg'" alt="Testbook Logo" height="32" style="margin-bottom: 0.75rem;" />
-          <p class="text-muted text-sm">
-            India's #1 Govt Exam Preparation Platform. Built with privacy-first technology — all document, photo, and data calculations run directly in your browser without uploading to any server.
-          </p>
-        </div>
-
-        <div>
-          <h4 class="footer-col-title">Popular Tools</h4>
-          <ul class="footer-links-list">
-            <li><a href="#/typing-test">Typing Speed Test (English & Hindi)</a></li>
-            <li><a href="#/photo-resizer">Passport Photo Resizer (20-50KB)</a></li>
-            <li><a href="#/signature-crop">Signature Crop & Resize (140x60)</a></li>
-            <li><a href="#/salary-calculator">7th CPC In-Hand Salary Calculator</a></li>
-            <li><a href="#/age-calculator">Govt Exam Age Calculator</a></li>
-            <li><a href="#/pdf-compressor">PDF Document Compressor</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 class="footer-col-title">Exams Covered</h4>
-          <ul class="footer-links-list">
-            <li><a href="#/age-calculator">SSC CGL, CHSL, MTS, CPO, GD</a></li>
-            <li><a href="#/age-calculator">UPSC CSE (IAS/IPS), CDS, NDA</a></li>
-            <li><a href="#/age-calculator">Railways RRB NTPC, Group D, ALP</a></li>
-            <li><a href="#/age-calculator">IBPS & SBI PO / Clerk</a></li>
-            <li><a href="#/age-calculator">State PSCs (BPSC, UPPSC, MPPSC)</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Bottom Bar -->
-      <div class="footer-bottom-bar">
-        <span>© 2026 Testbook Edu Solutions Pvt. Ltd. All rights reserved.</span>
-        <span>🔒 100% Client-Side Processing • No Ads</span>
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- ================= OFFICIAL TESTBOOK LOGIN MODAL ================= -->
-  <div id="tb-login-modal-backdrop" class="tb-modal-backdrop">
-    <div class="tb-login-modal" role="dialog" aria-modal="true">
-      <!-- Left Column: Login Form -->
-      <div class="tb-login-form-col">
-        <div>
-          <svg class="tb-modal-logo" viewBox="0 0 240 50" width="180" height="38" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Site Header -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="#/" class="brand-link" title="Testbook Govt Exam Tools Home">
+          <svg class="brand-logo-img" viewBox="0 0 240 50" width="200" height="42" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(4, 5)">
               <rect x="0" y="0" width="40" height="40" rx="10" fill="#0076D7"/>
               <path d="M12 14L28 14M12 20L25 20M12 26L21 26" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
@@ -3254,162 +3317,182 @@ button {
             <rect x="168" y="16" width="58" height="18" rx="4" fill="#E0F2FE"/>
             <text x="175" y="29" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#0076D7" letter-spacing="1">TOOLS</text>
           </svg>
+        </a>
+        <span class="header-tagline">Free tools to help you crack your next govt exam</span>
+
+        <div class="header-nav-actions" id="header-nav-actions">
+          <div id="user-auth-status-container"></div>
+          <a href="#/typing-test" class="pill-btn highlight-btn">âŒ¨ï¸ Typing Test</a>
+          <a href="#/photo-resizer" class="pill-btn">ðŸ“· Photo Resizer</a>
+          <a href="#/salary-calculator" class="pill-btn">ðŸ’° Salary Calc</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main class="main-content">
+      <div class="container">
+        
+        <!-- ================= HOMEPAGE VIEW ================= -->
+        <section id="homepage-view">
           
-          <h2 class="tb-login-title">Internal Tools Access</h2>
-          <p class="tb-login-desc">Enter your 10-digit Mobile Number and the 4-digit Access Passcode to unlock the tools.</p>
+          <!-- Hero Section -->
+          <div class="hero-section">
+            <h1 class="hero-main-title">Govt Exam Tools for Indian Aspirants</h1>
+            <p class="hero-subtitle">
+              Instant, 100% in-browser utilities tailored for SSC, UPSC, Railways RRB, Banking (IBPS/SBI), Defence, and State PSC application forms.
+            </p>
 
-          <form id="tb-login-form" novalidate>
-            <div class="form-group">
-              <label class="tb-input-label" for="tb-user-contact-input">
-                Mobile Number <span class="tb-required-star">*</span>
-              </label>
-              <div class="tb-mobile-input-wrapper">
-                <div class="tb-mobile-prefix">
-                  <span class="tb-flag">🇮🇳</span>
-                  <span class="tb-code">+91</span>
-                </div>
-                <input 
-                  type="tel" 
-                  id="tb-user-contact-input" 
-                  class="tb-login-input tb-mobile-input-field" 
-                  placeholder="Enter 10-digit Mobile Number" 
-                  maxlength="10"
-                  pattern="[6-9][0-9]{9}"
-                  inputmode="numeric"
-                  autocomplete="tel" 
-                  required 
-                />
-              </div>
-              <div id="tb-input-error-msg" class="tb-input-error-msg">Please enter a valid 10-digit Indian Mobile Number (starting with 6, 7, 8, or 9).</div>
+            <!-- Trust Badges -->
+            <div class="trust-badges-row">
+              <span class="trust-badge-item">
+                <span class="trust-badge-icon">ðŸ”’</span>
+                <span>100% Client-Side (Files Never Leave Your Device)</span>
+              </span>
+              <span class="trust-badge-item">
+                <span class="trust-badge-icon">âš¡</span>
+                <span>Verified Testbook Student Access</span>
+              </span>
+              <span class="trust-badge-item">
+                <span class="trust-badge-icon">ðŸŽ‰</span>
+                <span>100% Free Forever</span>
+              </span>
+              <span class="trust-badge-item">
+                <span class="trust-badge-icon">ðŸ“±</span>
+                <span>Works on Mobile (Tier 2/3 Fast)</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Search & Filter Section -->
+          <div class="search-filter-section">
+            <div class="search-box-wrapper">
+              <span class="search-icon-inside">ðŸ”</span>
+              <input 
+                type="text" 
+                id="tool-search-input" 
+                class="search-input-field" 
+                placeholder="Search tool by name or exam (e.g. Photo, Salary, SSC, Signature, PDF, Age, Normalization)..." 
+                autocomplete="off"
+              />
             </div>
 
-            <div class="form-group" style="margin-top: 1rem;">
-              <label class="tb-input-label" for="tb-user-passcode-input">
-                Internal Access Passcode <span class="tb-required-star">*</span>
-              </label>
-              <div class="tb-passcode-input-wrapper">
-                <div class="tb-lock-prefix">🔑</div>
-                <input 
-                  type="password" 
-                  id="tb-user-passcode-input" 
-                  class="tb-login-input tb-passcode-input-field" 
-                  placeholder="Enter 4-digit PIN" 
-                  maxlength="4"
-                  inputmode="numeric"
-                  autocomplete="current-password" 
-                  required 
-                />
-              </div>
-              <div id="tb-passcode-error-msg" class="tb-input-error-msg">Incorrect Access Passcode. Please enter authorized 4-digit PIN.</div>
+            <div class="category-filter-pills" id="home-category-filters">
+              <button type="button" class="pill-btn active" data-category="all">All Tools</button>
+              <button type="button" class="pill-btn" data-category="photo-pdf">ðŸ“· Photo &amp; PDF Tools</button>
+              <button type="button" class="pill-btn" data-category="eligibility-salary">ðŸ’° Eligibility &amp; Salary</button>
+              <button type="button" class="pill-btn" data-category="marks">ðŸŽ¯ Marks &amp; Scores</button>
             </div>
+          </div>
 
-            <button type="submit" id="tb-btn-continue" class="tb-btn-continue">
-              <span id="tb-btn-continue-text">Unlock Internal Tools →</span>
+          <!-- Tools Cards Grid -->
+          <div class="tools-cards-grid" id="tools-grid">
+            <!-- Dynamically populated by JS -->
+          </div>
+
+        </section>
+
+        <!-- ================= TOOL DETAIL VIEW ================= -->
+        <section id="tool-detail-view" class="hidden">
+          
+          <!-- Breadcrumb Navigation -->
+          <div class="breadcrumb-nav">
+            <a href="#/" class="back-home-link" id="btn-back-home">
+              <span>â† Back to All Tools</span>
+            </a>
+            <div class="breadcrumb-trail">
+              <a href="#/">Home</a> / <strong id="tool-breadcrumb-name">Tool Name</strong>
+            </div>
+            <button type="button" class="share-tool-btn" id="share-tool-btn" title="Copy shareable tool link">
+              <span>ðŸ”— Copy Share Link</span>
             </button>
-          </form>
-
-          <div class="tb-auth-trust-badge">
-            <span>🔒 Internal Access Protected • Authorized Testbook Access Only</span>
-          </div>
-        </div>
-
-        <div class="tb-login-footer-notice">
-          By continuing, you agree to Testbook's Terms &amp; Privacy Policy
-        </div>
-      </div>
-
-      <!-- Right Column: Promo Super Pass Live Trial Banner -->
-      <div class="tb-login-promo-col">
-        <div>
-          <h3 class="tb-promo-heading">Download testbook App</h3>
-          <p class="tb-promo-subheading">&amp; Start Your</p>
-          <div class="tb-promo-superpass">
-            Super Pass Live Trial at <span class="badge-one-rupee">₹1</span>
           </div>
 
-          <p class="tb-promo-tagline">1 Subscription For All Your Needs</p>
-
-          <div class="tb-promo-features-grid">
-            <div class="tb-promo-pill">Courses for 375+ Exams</div>
-            <div class="tb-promo-pill">Live &amp; Rec. Classes</div>
-            <div class="tb-promo-pill">Courses For Pre &amp; Mains Level</div>
-            <div class="tb-promo-pill">Practice Qs, Study Notes &amp; More</div>
+          <!-- Dynamic Tool Container -->
+          <div id="tool-content-area" class="mt-4">
+            <!-- Active Tool DOM injected here by JS Router -->
           </div>
-        </div>
 
-        <!-- Bottom Visuals: Phone QR + ₹1 Coin -->
-        <div class="tb-promo-bottom-visual">
-          
-          <!-- Phone QR Mockup -->
-          <div class="tb-qr-phone-box">
-            <div class="tb-qr-brand">
-              <span>🔷</span> testbook
+          <!-- SEO FAQ & Guidance Accordion Container -->
+          <div id="tool-faq-section" class="faq-section mt-4 hidden">
+            <div class="faq-header">
+              <h3 class="faq-title">Frequently Asked Questions &amp; Portal Guidelines</h3>
+              <p class="faq-subtitle">Clear answers to common doubts, rules, and rejection fixes.</p>
             </div>
-            <div class="tb-qr-sub">Download Now</div>
-            <!-- High resolution SVG QR code placeholder -->
-            <svg class="tb-qr-img" viewBox="0 0 100 100" fill="#000000">
-              <rect width="100" height="100" fill="#FFFFFF"/>
-              <!-- QR Finder Corners -->
-              <rect x="5" y="5" width="28" height="28" fill="#000"/>
-              <rect x="9" y="9" width="20" height="20" fill="#FFF"/>
-              <rect x="13" y="13" width="12" height="12" fill="#000"/>
-              
-              <rect x="67" y="5" width="28" height="28" fill="#000"/>
-              <rect x="71" y="9" width="20" height="20" fill="#FFF"/>
-              <rect x="75" y="13" width="12" height="12" fill="#000"/>
-              
-              <rect x="5" y="67" width="28" height="28" fill="#000"/>
-              <rect x="9" y="71" width="20" height="20" fill="#FFF"/>
-              <rect x="13" y="75" width="12" height="12" fill="#000"/>
-              
-              <!-- QR Data Matrix Pattern -->
-              <rect x="38" y="8" width="6" height="6" fill="#000"/>
-              <rect x="48" y="8" width="6" height="6" fill="#000"/>
-              <rect x="40" y="20" width="8" height="6" fill="#000"/>
-              <rect x="52" y="20" width="6" height="8" fill="#000"/>
-              <rect x="10" y="40" width="8" height="6" fill="#000"/>
-              <rect x="24" y="42" width="6" height="6" fill="#000"/>
-              <rect x="36" y="36" width="6" height="6" fill="#000"/>
-              <rect x="46" y="44" width="8" height="8" fill="#000"/>
-              <rect x="60" y="38" width="6" height="6" fill="#000"/>
-              <rect x="72" y="44" width="8" height="6" fill="#000"/>
-              <rect x="86" y="40" width="6" height="6" fill="#000"/>
-              <rect x="38" y="58" width="8" height="6" fill="#000"/>
-              <rect x="52" y="62" width="6" height="8" fill="#000"/>
-              <rect x="68" y="60" width="6" height="6" fill="#000"/>
-              <rect x="80" y="68" width="12" height="6" fill="#000"/>
-              <rect x="40" y="78" width="6" height="8" fill="#000"/>
-              <rect x="52" y="82" width="8" height="8" fill="#000"/>
-              <rect x="68" y="78" width="8" height="6" fill="#000"/>
-              <rect x="82" y="82" width="8" height="8" fill="#000"/>
+            <div class="faq-list" id="tool-faq-list">
+              <!-- FAQs rendered dynamically per tool -->
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        
+        <div class="footer-top-disclaimer">
+          âš ï¸ <strong>Important Aspirant Notice &amp; Disclaimer:</strong> All calculations, salary projections, age eligibility checks, shift normalizations, and image specifications provided on Testbook Govt Exam Tools are strictly illustrative and based on published recruitment notifications and standard 7th Central Pay Commission matrices. Candidates must verify all official requirements with the latest advertisement gazette published by the respective commission (SSC, UPSC, RRB, IBPS, NTA, or State PSC) before final application submission. Testbook is not affiliated with any government recruitment body.
+        </div>
+
+        <div class="footer-grid">
+          <div class="footer-col-main">
+            <svg viewBox="0 0 240 50" width="160" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g transform="translate(4, 5)">
+                <rect x="0" y="0" width="40" height="40" rx="10" fill="#0076D7"/>
+                <path d="M12 14L28 14M12 20L25 20M12 26L21 26" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="28" cy="26" r="3.5" fill="#22C55E"/>
+              </g>
+              <text x="56" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800" fill="#1E293B" letter-spacing="-0.5">testbook</text>
             </svg>
+            <p class="footer-brand-desc mt-2">
+              India's #1 Govt Exam Preparation Platform. Built with privacy-first technology â€” all document, photo, and data calculations run directly in your browser without uploading to any server.
+            </p>
           </div>
 
-          <!-- 3D 1 Rupee Coin -->
-          <div class="tb-coin-visual">
-            <div class="tb-coin-ribbon">START YOUR TRIAL NOW AT</div>
-            <div class="tb-coin-circle">
-              <span class="tb-coin-devanagari">रुपया</span>
-              <span class="tb-coin-num">1</span>
-              <span class="tb-coin-word">RUPEE</span>
-              <span class="tb-coin-year">2026</span>
-            </div>
-            <div class="tb-coin-autorenew">*AUTORENEWS</div>
+          <div class="footer-col">
+            <h4 class="footer-col-title">Popular Tools</h4>
+            <ul class="footer-links-list">
+              <li><a href="#/typing-test">Typing Speed Test (English &amp; Hindi)</a></li>
+              <li><a href="#/photo-resizer">Passport Photo Resizer (20-50KB)</a></li>
+              <li><a href="#/signature-crop">Signature Crop &amp; Resize (140x60)</a></li>
+              <li><a href="#/salary-calculator">7th CPC In-Hand Salary Calculator</a></li>
+              <li><a href="#/age-calculator">Govt Exam Age Calculator</a></li>
+              <li><a href="#/pdf-compressor">PDF Document Compressor</a></li>
+            </ul>
           </div>
 
+          <div class="footer-col">
+            <h4 class="footer-col-title">Exams Covered</h4>
+            <ul class="footer-links-list">
+              <li><a href="#/age-calculator">SSC CGL, CHSL, MTS, CPO, GD</a></li>
+              <li><a href="#/age-calculator">UPSC CSE (IAS/IPS), CDS, NDA</a></li>
+              <li><a href="#/age-calculator">Railways RRB NTPC, Group D, ALP</a></li>
+              <li><a href="#/age-calculator">IBPS &amp; SBI PO / Clerk</a></li>
+              <li><a href="#/age-calculator">State PSCs (BPSC, UPPSC, MPPSC)</a></li>
+            </ul>
+          </div>
         </div>
+
+        <div class="footer-bottom-bar">
+          <span>Â© 2026 Testbook Edu Solutions Pvt. Ltd. All rights reserved.</span>
+          <span>ðŸ”’ 100% Client-Side Processing â€¢ No Ads</span>
+        </div>
+
       </div>
+    </footer>
 
-    </div>
+    <!-- Toast Notification -->
+    <div id="app-toast" class="app-toast hidden"></div>
+
   </div>
-
-  <!-- Toast Notification -->
-  <div id="app-toast" class="app-toast hidden"></div>
 
   <!-- PDF-Lib for Client-Side PDF Creation & Manipulation -->
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
-    <!-- Master Standalone Application Script (Inlined for 100% Zero-Dependency & GitHub Pages Compatibility) -->
+  <!-- Master Standalone Application Script (Inlined for 100% Zero-Dependency & GitHub Pages Compatibility) -->
   <script>
 // Testbook Govt Exam Tools - Master Standalone Application
 // Self-contained, zero-dependency, works 100% on file:/// and http:// protocols.
@@ -6549,16 +6632,29 @@ button {
       const session = getStudentSession();
       const contactVal = session ? (session.contact || session.phone || '') : '';
       const isAuth = session && session.authenticated === true && /^[6-9]\d{9}$/.test(contactVal);
+      
+      const gatekeeper = document.getElementById('app-auth-gatekeeper');
+      const dashboardWrapper = document.getElementById('app-dashboard-wrapper');
+
       if (isAuth) {
-        // Already verified internal access on this system — allow access directly
+        // Already verified internal access on this machine — unlock dashboard directly
+        if (gatekeeper) gatekeeper.classList.add('unlocked');
+        if (dashboardWrapper) {
+          dashboardWrapper.classList.remove('dashboard-hidden');
+          dashboardWrapper.classList.add('dashboard-visible');
+        }
         renderUserAuthBadge(session);
       } else {
-        // Mandatory login with Passcode 7730 required before accessing tools
-        if (loginBackdrop) {
-          setTimeout(() => {
-            loginBackdrop.classList.add('active');
-            if (contactInput) contactInput.focus();
-          }, 300);
+        // Mandatory login with Passcode 7730 required before accessing anything
+        if (gatekeeper) gatekeeper.classList.remove('unlocked');
+        if (dashboardWrapper) {
+          dashboardWrapper.classList.remove('dashboard-visible');
+          dashboardWrapper.classList.add('dashboard-hidden');
+        }
+        if (passcodeInput) {
+          setTimeout(() => passcodeInput.focus(), 200);
+        } else if (contactInput) {
+          setTimeout(() => contactInput.focus(), 200);
         }
       }
     }
@@ -6576,6 +6672,24 @@ button {
 
       let hasError = false;
 
+      // Mandatory Passcode 7730 validation
+      if (cleanPass !== INTERNAL_ACCESS_PASSWORD) {
+        if (passcodeErrorMsg) {
+          passcodeErrorMsg.textContent = 'Incorrect Passcode! Please enter authorized 4-digit PIN (7730).';
+          passcodeErrorMsg.classList.add('show');
+        }
+        if (passcodeWrapper) passcodeWrapper.classList.add('error');
+        if (passcodeInput) {
+          passcodeInput.classList.add('error');
+          passcodeInput.focus();
+        }
+        hasError = true;
+      } else {
+        if (passcodeErrorMsg) passcodeErrorMsg.classList.remove('show');
+        if (passcodeWrapper) passcodeWrapper.classList.remove('error');
+        if (passcodeInput) passcodeInput.classList.remove('error');
+      }
+
       // Mandatory Mobile Number validation
       if (!cleanVal || cleanVal.length !== 10 || !/^[6-9]\d{9}$/.test(cleanVal)) {
         if (errorMsg) {
@@ -6585,7 +6699,7 @@ button {
         if (mobileWrapper) mobileWrapper.classList.add('error');
         if (contactInput) {
           contactInput.classList.add('error');
-          contactInput.focus();
+          if (!hasError) contactInput.focus();
         }
         hasError = true;
       } else {
@@ -6594,27 +6708,9 @@ button {
         if (contactInput) contactInput.classList.remove('error');
       }
 
-      // Mandatory Passcode 7730 validation
-      if (cleanPass !== INTERNAL_ACCESS_PASSWORD) {
-        if (passcodeErrorMsg) {
-          passcodeErrorMsg.textContent = 'Incorrect Passcode! Please enter the authorized 4-digit PIN (7730).';
-          passcodeErrorMsg.classList.add('show');
-        }
-        if (passcodeWrapper) passcodeWrapper.classList.add('error');
-        if (passcodeInput) {
-          passcodeInput.classList.add('error');
-          if (!hasError) passcodeInput.focus();
-        }
-        hasError = true;
-      } else {
-        if (passcodeErrorMsg) passcodeErrorMsg.classList.remove('show');
-        if (passcodeWrapper) passcodeWrapper.classList.remove('error');
-        if (passcodeInput) passcodeInput.classList.remove('error');
-      }
-
       if (hasError) return;
 
-      // Both Valid: grant access
+      // Both Valid: grant access and reveal dashboard
       if (continueBtn) continueBtn.disabled = true;
       if (continueBtnText) continueBtnText.textContent = 'Authorizing...';
 
@@ -6623,12 +6719,19 @@ button {
       sendLeadToGoogleSheet(cleanVal);
 
       setTimeout(() => {
+        const gatekeeper = document.getElementById('app-auth-gatekeeper');
+        const dashboardWrapper = document.getElementById('app-dashboard-wrapper');
+        if (gatekeeper) gatekeeper.classList.add('unlocked');
+        if (dashboardWrapper) {
+          dashboardWrapper.classList.remove('dashboard-hidden');
+          dashboardWrapper.classList.add('dashboard-visible');
+        }
         if (loginBackdrop) loginBackdrop.classList.remove('active');
         renderUserAuthBadge(session);
         if (continueBtn) continueBtn.disabled = false;
         if (continueBtnText) continueBtnText.textContent = 'Unlock Internal Tools →';
         if (toastEl) {
-          toastEl.textContent = '✓ Authorized! Welcome to Testbook Internal Tools.';
+          toastEl.textContent = '✓ Passcode Verified! Dashboard Unlocked.';
           toastEl.classList.remove('hidden');
           toastEl.classList.add('show');
           setTimeout(() => {
@@ -6698,4 +6801,3 @@ button {
   </script>
 </body>
 </html>
-

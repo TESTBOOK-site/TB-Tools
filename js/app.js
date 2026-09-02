@@ -3136,16 +3136,29 @@
       const session = getStudentSession();
       const contactVal = session ? (session.contact || session.phone || '') : '';
       const isAuth = session && session.authenticated === true && /^[6-9]\d{9}$/.test(contactVal);
+      
+      const gatekeeper = document.getElementById('app-auth-gatekeeper');
+      const dashboardWrapper = document.getElementById('app-dashboard-wrapper');
+
       if (isAuth) {
-        // Already verified internal access on this system — allow access directly
+        // Already verified internal access on this machine — unlock dashboard directly
+        if (gatekeeper) gatekeeper.classList.add('unlocked');
+        if (dashboardWrapper) {
+          dashboardWrapper.classList.remove('dashboard-hidden');
+          dashboardWrapper.classList.add('dashboard-visible');
+        }
         renderUserAuthBadge(session);
       } else {
-        // Mandatory login with Passcode 7730 required before accessing tools
-        if (loginBackdrop) {
-          setTimeout(() => {
-            loginBackdrop.classList.add('active');
-            if (contactInput) contactInput.focus();
-          }, 300);
+        // Mandatory login with Passcode 7730 required before accessing anything
+        if (gatekeeper) gatekeeper.classList.remove('unlocked');
+        if (dashboardWrapper) {
+          dashboardWrapper.classList.remove('dashboard-visible');
+          dashboardWrapper.classList.add('dashboard-hidden');
+        }
+        if (passcodeInput) {
+          setTimeout(() => passcodeInput.focus(), 200);
+        } else if (contactInput) {
+          setTimeout(() => contactInput.focus(), 200);
         }
       }
     }
@@ -3163,6 +3176,24 @@
 
       let hasError = false;
 
+      // Mandatory Passcode 7730 validation
+      if (cleanPass !== INTERNAL_ACCESS_PASSWORD) {
+        if (passcodeErrorMsg) {
+          passcodeErrorMsg.textContent = 'Incorrect Passcode! Please enter authorized 4-digit PIN (7730).';
+          passcodeErrorMsg.classList.add('show');
+        }
+        if (passcodeWrapper) passcodeWrapper.classList.add('error');
+        if (passcodeInput) {
+          passcodeInput.classList.add('error');
+          passcodeInput.focus();
+        }
+        hasError = true;
+      } else {
+        if (passcodeErrorMsg) passcodeErrorMsg.classList.remove('show');
+        if (passcodeWrapper) passcodeWrapper.classList.remove('error');
+        if (passcodeInput) passcodeInput.classList.remove('error');
+      }
+
       // Mandatory Mobile Number validation
       if (!cleanVal || cleanVal.length !== 10 || !/^[6-9]\d{9}$/.test(cleanVal)) {
         if (errorMsg) {
@@ -3172,7 +3203,7 @@
         if (mobileWrapper) mobileWrapper.classList.add('error');
         if (contactInput) {
           contactInput.classList.add('error');
-          contactInput.focus();
+          if (!hasError) contactInput.focus();
         }
         hasError = true;
       } else {
@@ -3181,27 +3212,9 @@
         if (contactInput) contactInput.classList.remove('error');
       }
 
-      // Mandatory Passcode 7730 validation
-      if (cleanPass !== INTERNAL_ACCESS_PASSWORD) {
-        if (passcodeErrorMsg) {
-          passcodeErrorMsg.textContent = 'Incorrect Passcode! Please enter the authorized 4-digit PIN (7730).';
-          passcodeErrorMsg.classList.add('show');
-        }
-        if (passcodeWrapper) passcodeWrapper.classList.add('error');
-        if (passcodeInput) {
-          passcodeInput.classList.add('error');
-          if (!hasError) passcodeInput.focus();
-        }
-        hasError = true;
-      } else {
-        if (passcodeErrorMsg) passcodeErrorMsg.classList.remove('show');
-        if (passcodeWrapper) passcodeWrapper.classList.remove('error');
-        if (passcodeInput) passcodeInput.classList.remove('error');
-      }
-
       if (hasError) return;
 
-      // Both Valid: grant access
+      // Both Valid: grant access and reveal dashboard
       if (continueBtn) continueBtn.disabled = true;
       if (continueBtnText) continueBtnText.textContent = 'Authorizing...';
 
@@ -3210,12 +3223,19 @@
       sendLeadToGoogleSheet(cleanVal);
 
       setTimeout(() => {
+        const gatekeeper = document.getElementById('app-auth-gatekeeper');
+        const dashboardWrapper = document.getElementById('app-dashboard-wrapper');
+        if (gatekeeper) gatekeeper.classList.add('unlocked');
+        if (dashboardWrapper) {
+          dashboardWrapper.classList.remove('dashboard-hidden');
+          dashboardWrapper.classList.add('dashboard-visible');
+        }
         if (loginBackdrop) loginBackdrop.classList.remove('active');
         renderUserAuthBadge(session);
         if (continueBtn) continueBtn.disabled = false;
         if (continueBtnText) continueBtnText.textContent = 'Unlock Internal Tools →';
         if (toastEl) {
-          toastEl.textContent = '✓ Authorized! Welcome to Testbook Internal Tools.';
+          toastEl.textContent = '✓ Passcode Verified! Dashboard Unlocked.';
           toastEl.classList.remove('hidden');
           toastEl.classList.add('show');
           setTimeout(() => {
